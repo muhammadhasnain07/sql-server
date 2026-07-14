@@ -1,4 +1,4 @@
-create database hasnain
+fcreate database hasnain
 use  hasnain
 create table mytable(id int primary key, name varchar  (20), age int)
 select * from mytable
@@ -152,7 +152,7 @@ to studentuser;
 
 delete from employee1 where employeeid=101
 
---GRANt
+--GRANt 
 --give a permission
 --see a table
 --revoke
@@ -164,3 +164,57 @@ on employee1 to studentlogin
 
 Revoke select
 on employee1 to studentlogin
+
+CREATE TABLE Employee2(
+    EmployeeID int,     
+    EmployeeName VARCHAR(30),
+    DepartmentID INT                
+);
+
+CREATE TABLE Department (
+    DepartmentID int,
+    DepartmentName VARCHAR(30)
+);
+
+
+
+INSERT INTO Employee2 (EmployeeID, EmployeeName, DepartmentID)VALUES 
+(101, 'ali', 1),
+(102, 'saad', 2),   
+(103, 'Asad', 3),  
+(104, 'Aman',4);
+
+INSERT INTO Department (DepartmentID, DepartmentName) VALUES 
+(1, 'IT'),
+(2, 'HR'),
+(3, 'Finance'),
+(4, 'HR'),
+(5,'IT')
+
+select * from Employee2
+select * from Department
+drop table Department
+
+SELECT 
+    Employee2.EmployeeID, 
+    Employee2.EmployeeName,
+	Employee2.DepartmentID
+FROM Employee2 
+left JOIN Department  
+ON Employee2.DepartmentID = Department.DepartmentID;
+
+SELECT 
+    Employee2.EmployeeID, 
+    Employee2.EmployeeName,
+	Employee2.DepartmentID
+FROM Employee2 
+right JOIN Department  
+ON Employee2.DepartmentID = Department.DepartmentID;
+
+SELECT 
+    Employee2.EmployeeID, 
+    Employee2.EmployeeName,
+	Employee2.DepartmentID
+FROM Employee2 
+full JOIN Department  
+ON Employee2.DepartmentID = Department.DepartmentID;
