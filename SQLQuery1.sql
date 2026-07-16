@@ -200,6 +200,7 @@ SELECT
     Employee2.EmployeeName,
 	Employee2.DepartmentID
 FROM Employee2 
+
 left JOIN Department  
 ON Employee2.DepartmentID = Department.DepartmentID;
 
@@ -218,3 +219,84 @@ SELECT
 FROM Employee2 
 full JOIN Department  
 ON Employee2.DepartmentID = Department.DepartmentID;
+
+
+--16/07/2026
+-- 1. Customers Table
+CREATE TABLE customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    City VARCHAR(50)
+);
+INSERT INTO customers (CustomerID, CustomerName, City)VALUES 
+(101, 'hassan', 'karachi'),
+(102, 'hasnain', 'hyd'),   
+(103, 'hasan', 'pnj'),  
+(104, 'hussain', 'isl');
+-- 2. Products Table
+CREATE TABLE products (
+    productID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    productsprice DECIMAL(10, 2)
+);
+INSERT INTO products (ProductID, ProductName, ProductsPrice)VALUES 
+(101, 'laptop', 15000),
+(102, 'mobile', 20000),   
+(103, 'mouse', 1000),  
+(104, 'key board', 2000);
+
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Customers;
+-- 3. Orders Table (With Foreign Keys)
+CREATE TABLE orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    ProductID INT,
+    OrderDate DATE,
+    Quantity INT,
+    -- Foreign Keys defining relationship
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+INSERT INTO Orders (OrderID, CustomerID, ProductID, OrderDate, Quantity)
+VALUES
+(1, 101, 101, '2026-07-01', 2),
+(2, 102, 102, '2026-07-02', 1),
+(3, 103, 103, '2026-07-03', 3),
+(4, 104, 104, '2026-07-04', 2),
+(5, 101, 102, '2026-07-05', 1),
+(6, 102, 103, '2026-07-06', 4),
+(7, 103, 104, '2026-07-07', 2),
+(8, 104, 101, '2026-07-08', 1);
+select * from customers
+select * from products
+select * from orders
+SELECT
+    o.OrderID,
+    c.CustomerName,
+    p.ProductName,
+    p.ProductsPrice,
+    o.Quantity,
+    (p.ProductsPrice * o.Quantity) AS TotalBill,
+    o.OrderDate
+FROM Orders o
+INNER JOIN Customers c ON o.CustomerID = c.CustomerID
+INNER JOIN Products p ON o.ProductID = p.ProductID;
+
+
+SELECT
+    c.CustomerID,
+    c.CustomerName,
+    o.OrderID,
+    p.ProductName,
+    p.ProductsPrice,
+    o.Quantity,
+    (p.ProductsPrice * o.Quantity) AS TotalBill,
+    o.OrderDate
+FROM Customers c
+right JOIN Orders o
+    ON c.CustomerID = o.CustomerID
+right JOIN Products p
+    ON o.ProductID = p.ProductID;
